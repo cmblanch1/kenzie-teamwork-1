@@ -8,6 +8,21 @@ const board = [
     [0, 0, 0, 0, 0, 0]
 ];
 
+
+//Turn holding variable to switch between colors
+let turn = 1
+
+//Initialization of variables to break apart the board into columns
+let column1 = board[0]
+let column2 = board[1]
+let column3 = board[2]
+let column4 = board[3]
+let column5 = board[4]
+let column6 = board[5]
+let column7 = board[6]
+
+
+
 const grid = document.getElementById("grid");
 
 // Draws the grid to the page, adds discs based on data model
@@ -45,3 +60,34 @@ function resetGrid(twoDArray) {
 }
 
 generateGrid(board);
+
+
+// Rendering Disc
+function renderDisc(column){
+    let cell = columnCheck(column)
+    //console.log(cell)
+
+    if(turn === 2){
+        column[cell] = 2
+        turn = 1
+
+    }else if(turn === 1){
+        column[cell] = 1
+        turn = 2
+
+    }
+
+}
+
+//Check to see if column already has game pieces inside column
+function columnCheck(column){
+    let i = 0
+   
+    for (i = column.length - 1; i >= 0; i--) {
+        if (column[i] === 0){break; }
+        //If rendering is broken uncomment this
+        //console.log('test')
+    }
+
+    return i
+}
