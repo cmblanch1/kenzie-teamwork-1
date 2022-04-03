@@ -48,6 +48,20 @@ function generateGrid(twoDArray) {
     }
    
 }
+let turnText = document.getElementById('turn')
+function turnBoard(){
+    if(turn === 2){
+        turnText.innerHTML = `<h4>It's Black's turn</h4>`
+
+    }else if(turn === 1){
+        turnText.innerHTML = `<h4>It's Red's turn</h4>`
+    }
+
+
+}
+
+turnBoard()
+
 
 // End grid rendering (removes event listeners)
 function endGrid(twoDArray) {
@@ -96,10 +110,12 @@ function renderDisc(column, divCol){
     if(turn === 2){
         column[cell] = 2
         turn = 1
+        turnBoard()
 
     }else if(turn === 1){
         column[cell] = 1
         turn = 2
+        turnBoard()
 
     }
 
