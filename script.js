@@ -36,16 +36,17 @@ function generateGrid(twoDArray) {
         for (let j = 0; j < innerArray.length; j++) {
             let currentValue = innerArray[j];
             if (currentValue === 0) {
-                col.innerHTML += `<div class="cell"></div>`;
+                col.innerHTML += `<div class="cell" onclick='columnClick(column${i+1}, board)'></div>`;
             } else if (currentValue === 1) {
-                col.innerHTML += `<div class="cell"><div class="disc red"></div></div>`;
+                col.innerHTML += `<div class="cell" onclick='columnClick(column${i+1}, board)'><div class="disc red"></div></div>`;
             } else if (currentValue === 2) {
-                col.innerHTML += `<div class="cell"><div class="disc black"></div></div>`;
+                col.innerHTML += `<div class="cell" onclick='columnClick(column${i+1}, board)'><div class="disc black"></div></div>`;
             }
         }
         
         grid.append(col);
     }
+   
 }
 
 // Resets the board
@@ -62,9 +63,11 @@ function resetGrid(twoDArray) {
 generateGrid(board);
 
 
+
 // Rendering Disc
-function renderDisc(column){
+function renderDisc(column, divCol){
     let cell = columnCheck(column)
+    
     //console.log(cell)
 
     if(turn === 2){
@@ -91,3 +94,15 @@ function columnCheck(column){
 
     return i
 }
+
+function columnClick(column, twoDArray){
+    renderDisc(column)
+    generateGrid(twoDArray)
+}
+
+/*let btn = document.getElementById('test')
+
+btn.onclick = function(){
+    columnClick(column1, board)
+}*/
+
