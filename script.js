@@ -49,6 +49,29 @@ function generateGrid(twoDArray) {
    
 }
 
+// End grid rendering (removes event listeners)
+function endGrid(twoDArray) {
+    grid.innerHTML = "";
+    for (let i = 0; i < twoDArray.length; i++) {
+        let innerArray = twoDArray[i];
+        let col = document.createElement("div");
+        col.id = `col${i+1}`;
+
+        for (let j = 0; j < innerArray.length; j++) {
+            let currentValue = innerArray[j];
+            if (currentValue === 0) {
+                col.innerHTML += `<div class="cell"></div>`;
+            } else if (currentValue === 1) {
+                col.innerHTML += `<div class="cell"><div class="disc red"></div></div>`;
+            } else if (currentValue === 2) {
+                col.innerHTML += `<div class="cell"><div class="disc black"></div></div>`;
+            }
+        }
+        
+        grid.append(col);
+    }
+}
+
 // Resets the board
 function resetGrid(twoDArray) {
     for (let i = 0; i < twoDArray.length; i++) {
@@ -98,6 +121,15 @@ function columnCheck(column){
 function columnClick(column, twoDArray){
     renderDisc(column)
     generateGrid(twoDArray)
+}
+
+// Displays text parameter over grid, fades out the grid
+function endGameScreen(winText) {
+    let winElement = document.createElement("h1");
+    winElement.innerHTML = `${winText}`;
+    winElement.className = "end-game";
+    grid.style.opacity = 0.2;
+    document.body.append(winElement);
 }
 
 /*let btn = document.getElementById('test')

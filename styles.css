@@ -53,3 +53,9 @@ h1 {
 #col7 {
     border-right: 1px solid lightblue;
 }
+
+.end-game {
+    position: relative;
+    bottom: 300px;
+    font-size: 40px;
+}
