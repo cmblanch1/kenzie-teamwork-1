@@ -84,6 +84,7 @@ function endGrid(twoDArray) {
         
         grid.append(col);
     }
+    
 }
 
 // Resets the board
@@ -111,11 +112,19 @@ function renderDisc(column, divCol){
         column[cell] = 2
         turn = 1
         turnBoard()
+        winState()
+        winStateText()
+        isTie()
+        tieText()
 
     }else if(turn === 1){
         column[cell] = 1
         turn = 2
         turnBoard()
+        winState()
+        winStateText()
+        isTie()
+        tieText()
 
     }
 
@@ -135,8 +144,13 @@ function columnCheck(column){
 }
 
 function columnClick(column, twoDArray){
-    renderDisc(column)
-    generateGrid(twoDArray)
+    if(winState()=== undefined || isTie () === undefined){
+        renderDisc(column)
+        generateGrid(twoDArray)
+    }else if( winState()=== true || isTie() === true){
+        endGrid(board)
+     }
+    
 }
 
 // Displays text parameter over grid, fades out the grid
@@ -146,6 +160,7 @@ function endGameScreen(winText) {
     winElement.className = "end-game";
     grid.style.opacity = 0.2;
     document.body.append(winElement);
+    
 }
 
 /*let btn = document.getElementById('test')
@@ -153,4 +168,146 @@ function endGameScreen(winText) {
 btn.onclick = function(){
     columnClick(column1, board)
 }*/
+
+const edgeX = board[0].length - 3;
+const edgeY = board.length - 3;
+
+let horizontal = function () {
+  for (let y = 0; y < board.length; y++) {
+    for (let x = 0; x < edgeX; x++) {
+      let cell = board[y][x];
+      if (cell !== 0) {
+        if (cell === board[y][x + 1] && cell === board[y][x + 2] && cell === board[y][x + 3]) {
+          // console.log("3 in a row vertical found at " + (x + 1) + ":" + (y + 1))
+          return cell
+        }
+      }
+    }
+  }
+}
+
+let vertical = function () {
+  for (let y = 0; y < edgeY; y++) {
+    for (let x = 0; x < board[0].length; x++) {
+      cell = board[y][x];
+      if (cell !== 0) {
+        if (cell === board[y + 3][x] && cell === board[y + 2][x] && cell === board[y + 1][x]) {
+          // console.log("3 in a row horizontal found at " + (x + 1) + ":" + (y + 1))
+          return cell
+        }
+      }
+    }
+  }
+}
+
+let downRight = function () {
+  for (let y = 0; y < edgeY; y++) {
+    for (let x = 0; x < edgeX; x++) {
+      cell = board[y][x];
+      if (cell !== 0) {
+        if (cell === board[y + 1][x + 1] && cell === board[y + 2][x + 2] && cell === board[y + 3][x + 3]) {
+          // console.log("3 in a row down-right found at " + (x + 1) + ":" + (y + 1))
+          return cell
+        }
+      }
+    }
+  }
+}
+
+let downLeft = function () {
+  for (let y = 3; y < board.length; y++) {
+    for (let x = 0; x < edgeX; x++) {
+      cell = board[y][x];
+      if (cell !== 0) {
+        if (cell === board[y - 1][x + 1] && cell === board[y - 2][x + 2] && cell === board[y - 3][x + 3]) {
+          // console.log("3 in a row down-left found at " + (x + 1) + ":" + (y + 1))
+          return cell
+        }
+      }
+    }
+  }
+}
+
+
+let isTie = function () {
+  for (let y = 0; y < board.length; y++) {
+    for (let x = 0; x < edgeX; x++) {
+      cell = board[y][x];
+      if (cell === 0) {
+        return false
+      }
+    }
+  }
+  return true
+  
+}
+
+let player
+
+let winState = function () {
+
+  if (vertical() === 1) {
+    player = 1
+  } else if (vertical() === 2) {
+    player = 2
+  } if (horizontal() === 1) {
+    player = 1
+  } else if (horizontal() === 2) {
+    player = 2
+  } if (downRight() === 1) {
+    player = 1
+  } else if (downRight() === 2) {
+    player = 2
+  } if (downLeft() === 1) {
+    player = 1
+  } else if (downLeft() === 2) {
+    player = 2
+  } if (player) {
+   
+    return true
+    // alert(`Player: ${player} wins!`)
+
+  }
+}
+
+
+function winStateText(){
+    if(winState()=== true){
+        endGameScreen(`Player: ${player} wins!` )
+    } else{
+        return
+    }
+}
+function tieText(){
+    if(isTie()=== true){
+        endGameScreen(`It's a tie!` )
+    } else{
+        return
+    }
+}
+
+
+
+
+let reset = function () {
+    for (let y = 0; y < board.length; y++) {
+      for (let x = 0; x < edgeX; x++) {
+        board[y][x] = 0
+      }
+    }
+    resetGrid(board)
+    turn = 1
+    turnBoard()
+    let endText = document.querySelector('.end-game')
+    endText.remove()
+    generateGrid(board)
+  }
+  
+
+let resetButton = document.getElementById('ResetButton')
+resetButton.addEventListener('click', reset)
+
+
+
+
 

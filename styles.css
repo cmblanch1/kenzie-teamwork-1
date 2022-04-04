@@ -59,3 +59,7 @@ h1, h2, h3, h4 {
     bottom: 300px;
     font-size: 40px;
 }
+
+#ResetButton{
+    text-align: center;
+}
